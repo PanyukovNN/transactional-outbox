@@ -1,4 +1,8 @@
-version: '2'
+version: '3.3'
+
+volumes:
+  postgres_transactional_outbox_volume:
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -21,3 +25,31 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  postgres:
+    image: postgres:latest
+    container_name: debezium_postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+    volumes:
+      - postgres_transactional_outbox_volume:/var/lib/postgresql/data
+
+  debezium:
+    image: debezium/connect:1.9
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: connect_configs
+      OFFSET_STORAGE_TOPIC: connect_offsets
+    depends_on:
+      - kafka
+      - postgres
+    ports:
+      - 8083:8083

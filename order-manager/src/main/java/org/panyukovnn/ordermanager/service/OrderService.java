@@ -16,15 +16,15 @@ public class OrderService {
     private final OrderOutboxRepository orderOutboxRepository;
 
     @Transactional
-    public Order processOrder() {
+    public void processOrder() {
         Order order = new Order();
 
         orderRepository.save(order);
 
-        orderOutboxRepository.save(OrderOutbox.builder()
+        OrderOutbox orderOutbox = OrderOutbox.builder()
                 .order(order)
-                .build());
-
-        return order;
+                .build();
+        orderOutboxRepository.save(orderOutbox);
+        orderOutboxRepository.delete(orderOutbox);
     }
 }
