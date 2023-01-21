@@ -1,0 +1,8 @@
+FROM openjdk:21-slim
+
+COPY /notification-manager/build/libs/notification-manager.jar /notification-manager.jar
+
+EXPOSE 7070
+ENV TZ=Europe/Moscow
+
+ENTRYPOINT ["java", "-jar", "/notification-manager.jar"]

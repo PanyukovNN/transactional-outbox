@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/postgres
+    url: jdbc:postgresql://${POSTGRES_HOST}/postgres
     username: postgres
     password: postgres
     hikari:
@@ -25,3 +25,7 @@ spring:
             connectTimeout: 5000
             readTimeout: 5000
             loggerLevel: basic
+
+notification-manager:
+  kafka:
+    bootstrap-address: http://${KAFKA_HOST}

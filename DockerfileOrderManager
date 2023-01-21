@@ -1,0 +1,8 @@
+FROM openjdk:21-slim
+
+COPY /order-manager/build/libs/order-manager.jar /order-manager.jar
+
+EXPOSE 7077
+ENV TZ=Europe/Moscow
+
+ENTRYPOINT ["java", "-jar", "/order-manager.jar"]

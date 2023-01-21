@@ -1,3 +1,4 @@
+# Configure debezium connector
 curl -H 'Content-Type: application/json' http://localhost:8083/connectors --data '
 {
   "name": "order-outbox-connector",
@@ -14,4 +15,5 @@ curl -H 'Content-Type: application/json' http://localhost:8083/connectors --data
   }
 }'
 
+# Remove debezium connector
 curl -i -X DELETE localhost:8083/connectors/order-outbox-connector/

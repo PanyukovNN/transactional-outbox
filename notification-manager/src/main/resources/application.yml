@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/postgres
+    url: jdbc:postgresql://${POSTGRES_HOST}/postgres
     username: postgres
     password: postgres
     hikari:
@@ -17,3 +17,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     open-in-view: false
+
+notification-manager:
+  kafka:
+    bootstrap-address: http://${KAFKA_HOST}

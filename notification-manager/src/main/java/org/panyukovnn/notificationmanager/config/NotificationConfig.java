@@ -2,6 +2,7 @@ package org.panyukovnn.notificationmanager.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -16,14 +17,15 @@ import java.util.Map;
 @Configuration
 public class NotificationConfig {
 
-    private static final String BOOTSTRAP_ADDRESS = "http://localhost:29092";
+    @Value("${notification-manager.kafka.bootstrap-address}")
+    private String bootstrapAddress;
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                BOOTSTRAP_ADDRESS);
+                bootstrapAddress);
         props.put(
                 ConsumerConfig.GROUP_ID_CONFIG,
                 "some_group");

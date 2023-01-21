@@ -1,8 +1,23 @@
+# Transactional outbox with debezium demo
 
-Данный проект демонстрирует реализацию паттерна transactional outbox с использованием Debezium
+### How to start project
 
-Для старта необходимо запустить `docker-compose.yml`
-Затем сконфигурировать debezium, выполнив запрос из файла `debezium-config`
+1. Run `gradle build` on both of subprojects
+   
+   Because Dockerfiles of these projects just copy .jar to containers 
 
-Посмотреть топики кафки в контейнере:
-docker exec -ti transactional-outbox_kafka_1 kafka-topics --list --bootstrap-server localhost:9092
+2. All neccessary infrastructure starts with `docker-compose.yml`:
+   - postgres
+   - kafka
+   - debezium
+   - order-manager 
+   - notification-manager (2 replicas)
+
+3. Run curl request from file `debezium-config` to configure debezium connector
+4. Send request to order-manager
+
+--- 
+### Useful commands
+Show kafka topics:
+
+`docker exec -ti transactional-outbox_kafka_1 kafka-topics --list --bootstrap-server localhost:9092`

@@ -53,3 +53,33 @@ services:
       - postgres
     ports:
       - 8083:8083
+
+  notification-manager:
+    build:
+      context: .
+      dockerfile: ./DockerfileNotificationManager
+    depends_on:
+      - kafka
+      - postgres
+    environment:
+      - POSTGRES_HOST=postgres:5432
+      - KAFKA_HOST=kafka:9092
+    ports:
+      - "7070-7071:7070"
+    deploy:
+      mode: replicated
+      replicas: 2
+
+  order-manager:
+    build:
+      context: .
+      dockerfile: ./DockerfileOrderManager
+    container_name: order-manager
+    depends_on:
+      - kafka
+      - postgres
+    environment:
+      - POSTGRES_HOST=postgres:5432
+      - KAFKA_HOST=kafka:9092
+    ports:
+      - "7077:7077"
