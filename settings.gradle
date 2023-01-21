@@ -1,0 +1,4 @@
+rootProject.name = 'transactional-outbox'
+
+include 'order-manager'
+include 'notification-manager'

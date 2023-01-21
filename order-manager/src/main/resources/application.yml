@@ -17,14 +17,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     open-in-view: false
-  cloud:
-    openfeign:
-      client:
-        config:
-          default:
-            connectTimeout: 5000
-            readTimeout: 5000
-            loggerLevel: basic
 
 notification-manager:
   kafka:
